@@ -34,8 +34,6 @@ class BatchTextInput(BaseModel):
 async def analyze_sentiment(input: TextInput):
     try:
         result = sentiment_pipeline(input.text)
-        print(f"Result: {result}")
-        print("---\n")
         return {"label": result[0]["label"], "confidence": result[0]["score"]}
     except Exception as e:
         raise HTTPException(status_code = 500, detail = str(e))
