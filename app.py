@@ -6,6 +6,7 @@ import gradio as gr
 import uvicorn
 import torch
 import plotly.express as px
+import time
 
 app = FastAPI(title = "Fun Sentiment Analyzer API")
 
@@ -19,8 +20,11 @@ sentiment_pipeline = pipeline(
 )
 
 # Temporary test
-# test_text = "This sentiment analyzer API is awesome!"
-# print(sentiment_pipeline(test_text))
+test_text = "This sentiment analyzer API is awesome!"
+start = time.time()
+result = sentiment_pipeline(test_text)
+print(f"Inference time: {time.time() - start}")
+print(result)
 
 # Pydantic models API inputs
 class TextInput(BaseModel):
