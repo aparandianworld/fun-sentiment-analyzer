@@ -7,6 +7,7 @@ import uvicorn
 import torch
 import plotly.express as px
 import time
+import plotly.io as pio
 
 app = FastAPI(title = "Fun Sentiment Analyzer API")
 
@@ -56,14 +57,20 @@ async def batch_analyze_sentiment(input: BatchTextInput):
             labels={"x": "Sentiment", "y": "Count"}
         )
         return {
-            "results": {
-                "label": result["label"], 
-                "confidence": result["score"]
-            },
+            "results": [
+                { "label": result["label"], "confidence": result["score"] } for result in results
+            ],
             "plot": fig.to_json()
         }
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+def visualize_plot(plot_json: str):
+    try:
+        fix = pio.from_json(plot_json)
+        fig.show()
+    except Exception as e:
+        print(f"Error visualizing plot: {e}")
 
 if __name__ == "__main__":
     uvicorn.run(app, host = "0.0.0.0", port = 8000)
