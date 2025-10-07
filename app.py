@@ -67,7 +67,7 @@ async def batch_analyze_sentiment(input: BatchTextInput):
 
 def visualize_plot(plot_json: str):
     try:
-        fix = pio.from_json(plot_json)
+        fig = pio.from_json(plot_json)
         fig.show()
     except Exception as e:
         print(f"Error visualizing plot: {e}")
